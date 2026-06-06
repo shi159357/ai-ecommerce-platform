@@ -1,3 +1,7 @@
+export function formatCurrency(value: number): string {
+  return `¥${value.toLocaleString('zh-CN')}`;
+}
+
 export interface PlatformStats {
   mode: 'dropshipping' | 'amazon' | 'social' | 'all';
   revenue: { today: number; yesterday: number; week: number; month: number };
