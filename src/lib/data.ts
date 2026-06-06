@@ -2,6 +2,14 @@ export function formatCurrency(value: number): string {
   return `¥${value.toLocaleString('zh-CN')}`;
 }
 
+export function formatNumber(value: number): string {
+  return value.toLocaleString('zh-CN');
+}
+
+export function formatPercent(value: number): string {
+  return `${value.toFixed(1)}%`;
+}
+
 export interface PlatformStats {
   mode: 'dropshipping' | 'amazon' | 'social' | 'all';
   revenue: { today: number; yesterday: number; week: number; month: number };
