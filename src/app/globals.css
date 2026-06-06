@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  background: #0F172A;
+  color: #F1F5F9;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+  }
+  .card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+  }
+  .card:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+  }
+  .stat-up { color: #10B981; }
+  .stat-down { color: #EF4444; }
+  .badge-blue { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
+  .badge-green { background: rgba(16, 185, 129, 0.15); color: #34D399; }
+  .badge-yellow { background: rgba(245, 158, 11, 0.15); color: #FBBF24; }
+  .badge-red { background: rgba(239, 68, 68, 0.15); color: #F87171; }
+}
