@@ -1,4 +1,4 @@
-{
+﻿{
   "buildCommand": "next build",
   "devCommand": "next dev",
   "installCommand": "npm install",
@@ -6,5 +6,15 @@
   "outputDirectory": ".next",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" }
+  ],
+  "crons": [
+    {
+      "path": "/api/v1/system/health",
+      "schedule": "*/5 * * * *"
+    },
+    {
+      "path": "/api/v1/ai/select",
+      "schedule": "0 0 * * *"
+    }
   ]
 }
