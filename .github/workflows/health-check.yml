@@ -1,0 +1,14 @@
+﻿name: Health Check
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call health endpoint
+        run: |
+          curl -sf -X GET "https://ai-ecommerce-platform-git-main-shi159357-s-projects.vercel.app/api/v1/system/health" || echo "Health check failed but continuing"
