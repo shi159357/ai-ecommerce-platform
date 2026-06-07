@@ -16,10 +16,21 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     PORT: int = 8000
 
-    # Supabase 数据库
+    # Supabase 数据库 (Legacy — 逐步迁移至 Vercel Postgres)
     SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
     SUPABASE_KEY: str = os.getenv("SUPABASE_KEY", "")
     SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY", "")
+
+    # Vercel Postgres 数据库 (主数据库)
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+    # Vercel Postgres 也提供拆分后的环境变量
+    POSTGRES_URL: str = os.getenv("POSTGRES_URL", "")
+    POSTGRES_PRISMA_URL: str = os.getenv("POSTGRES_PRISMA_URL", "")
+    POSTGRES_URL_NON_POOLING: str = os.getenv("POSTGRES_URL_NON_POOLING", "")
+    POSTGRES_USER: str = os.getenv("POSTGRES_USER", "")
+    POSTGRES_HOST: str = os.getenv("POSTGRES_HOST", "")
+    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "")
+    POSTGRES_DATABASE: str = os.getenv("POSTGRES_DATABASE", "")
 
     # AI 模型
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")

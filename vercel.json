@@ -3,5 +3,16 @@
   "devCommand": "next dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/backend/api" },
+    { "source": "/api", "destination": "/backend/api" }
+  ],
+  "functions": {
+    "backend/api/index.py": {
+      "runtime": "@vercel/python@4.7.0",
+      "includeFiles": "backend/**",
+      "maxDuration": 30
+    }
+  }
 }

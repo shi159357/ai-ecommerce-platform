@@ -1,7 +1,12 @@
 """
 AI跨境电商 一人公司 — 主入口
 FastAPI + 自动化调度 + 自修复
+
+兼容模式：
+- 本地开发：使用 lifespan 启动 APScheduler + 自修复引擎
+- Vercel Serverless：跳过长驻进程（Scheduler），仅提供无状态 API
 """
+import os
 import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
@@ -10,8 +15,14 @@ from fastapi.responses import JSONResponse
 
 from config.settings import settings
 from api.routes import router
-from automation.scheduler import automation_scheduler
-from agents.auto_heal import auto_heal_engine
+
+# Vercel Serverless 检测
+IS_VERCEL = os.getenv("VERCEL_ENV", "") == "1" or os.getenv("VERCEL", "") == "1"
+
+# 仅在非 Vercel 环境导入长驻组件
+if not IS_VERCEL:
+    from automation.scheduler import automation_scheduler
+    from agents.auto_heal import auto_heal_engine
 
 
 @asynccontextmanager
@@ -21,24 +32,29 @@ async def lifespan(app: FastAPI):
     print("=" * 60)
     print(f"  {settings.APP_NAME} v{settings.APP_VERSION}")
     print(f"  AI跨境电商 · 一人公司运营平台")
+    if IS_VERCEL:
+        print(f"  运行模式: Vercel Serverless (无状态)")
+    else:
+        print(f"  运行模式: 本地开发 (全功能)")
     print("=" * 60)
 
-    # 启动自动化调度器
-    automation_scheduler.start()
+    if not IS_VERCEL:
+        # 本地模式：启动自动化调度器
+        automation_scheduler.start()
+        await auto_heal_engine.health_check()
 
-    # 启动时执行一次健康检查
-    await auto_heal_engine.health_check()
-
-    print(f"  API 服务: http://{settings.HOST}:{settings.PORT}")
-    print(f"  API 文档: http://{settings.HOST}:{settings.PORT}/docs")
+    if not IS_VERCEL:
+        print(f"  API 服务: http://{settings.HOST}:{settings.PORT}")
+        print(f"  API 文档: http://{settings.HOST}:{settings.PORT}/docs")
     print("=" * 60)
 
     yield
 
     # 关闭时
-    print("[系统] 正在安全关闭...")
-    automation_scheduler.shutdown()
-    print("[系统] 已关闭")
+    if not IS_VERCEL:
+        print("[系统] 正在安全关闭...")
+        automation_scheduler.shutdown()
+        print("[系统] 已关闭")
 
 
 app = FastAPI(
