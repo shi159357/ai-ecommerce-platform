@@ -6,11 +6,5 @@
   "outputDirectory": ".next",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" }
-  ],
-  "crons": [
-    {
-      "path": "/api/v1/ai/select",
-      "schedule": "0 0 * * *"
-    }
   ]
 }

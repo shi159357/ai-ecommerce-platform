@@ -1,0 +1,14 @@
+﻿name: AI Product Selection
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  ai-select:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger AI product selection
+        run: |
+          curl -sf -X GET "https://ai-ecommerce-platform-git-main-shi159357-s-projects.vercel.app/api/v1/ai/select" || echo "AI selection failed but continuing"
